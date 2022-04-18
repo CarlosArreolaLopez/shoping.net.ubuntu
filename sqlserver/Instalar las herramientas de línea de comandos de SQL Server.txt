@@ -1,0 +1,90 @@
+Instalar las herramientas de línea de comandos de SQL Server
+
+1. Importe las claves de GPG del repositorio público.
+
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+
+2. Registre el repositorio de Ubuntu de Microsoft
+
+curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/msprod.list
+
+
+3. Actualice la lista de orígenes y ejecute el comando de instalación con el paquete para desarrolladores de 
+unixODBC. Para más información, consulte Instalación de Microsoft ODBC Driver for SQL Server (Linux).
+
+sudo apt-get update 
+sudo apt-get install mssql-tools unixodbc-dev
+
+4. Opcional: agregue /opt/mssql-tools/bin/ a la variable de entorno PATH en un shell de Bash.
+
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+
+Para que sqlcmd/bcp sea accesible desde el shell de Bash para sesiones interactivas o 
+que no sean de inicio de sesión, modifique la variable PATH en el archivo ~/.bashrc con el comando siguiente:
+
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+source ~/.bashrc
+
+
+Conexión local
+
+Ejecute sqlcmd con parámetros para el nombre de SQL Server (-S), el nombre de usuario (-U) y la contraseña (-P).
+ En este tutorial se conecta de forma local, por lo que el nombre del servidor es localhost. 
+El nombre de usuario es SA y la contraseña es la que proporcionó para la cuenta SA durante la configuración
+
+
+sqlcmd -S localhost -U SA   
+
+le solicitara la contraseña de administrador
+
+
+CREAR UNA BASE DE DATOS
+
+> CREATE DATABASE TestDB
+> go
+
+listar todas las bases de datos de su servidor
+
+>SELECT Name from sys.Databases
+>go
+
+cambiarse a la base de datos 
+
+>USE TestDB
+>GO
+
+crear una tabla 
+
+>CREATE TABLE inventario(id INT, Descripcion NVARCHAR(50), cantidad INT);
+>GO
+
+
+insertar registros a la tabla inventario
+
+>INSERT INTO inventario VALUES (1, 'PLATANO', 150); 
+>GO
+>INSERT INTO inventario VALUES (2, 'MANZANA', 154);
+>GO
+>INSERT INTO inventario VALUES (3, 'FRESA', 453);
+>GO
+
+
+consultas a la tabla 
+> SELECT * FROM inventario WHERE cantidad > 152;
+> GO 
+
+> SELECT * FROM inventario;
+> GO 
+
+
+salir de la session de SQLCMD
+QUIT
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+Instalación de SQL Server y creación de una base de datos en Ubuntu
+
+1. Importacion de las claves de GPG del repositorio público:
+wget  https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add microsoft.asc
+
+2. Registre el repositorio de Ubuntu de Microsoft SQL Server para SQL Server 2019
+
+sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/20.04/mssql-server-2019.list)"
+
+3. Ejecutar los comandos siguientes para instalar SQL Server:
+sudo apt-get update
+sudo apt-get install -y mssql-server
+
+4. Cuando finalice la instalación del paquete, ejecute mssql-conf setup y siga las indicaciones para establecer 
+la contraseña de administrador del sistema y elegir la edición.
+
+sudo /opt/mssql/bin/mssql-conf setup
+
+5. Para comprobar que el servicio se esté ejecutando:
+
+systemctl status mssql-server --no-pager
